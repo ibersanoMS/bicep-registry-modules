@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.30.23.60470",
-      "templateHash": "17036957862982683599"
+      "version": "0.32.4.45862",
+      "templateHash": "18387862600358779253"
     },
     "name": "API Management Service APIs",
     "description": "This module deploys an API Management Service API.",
@@ -245,10 +245,7 @@
         "type": "[parameters('type')]",
         "value": "[parameters('value')]",
         "wsdlSelector": "[coalesce(parameters('wsdlSelector'), createObject())]"
-      },
-      "dependsOn": [
-        "service"
-      ]
+      }
     },
     "policy": {
       "copy": {
@@ -283,8 +280,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.30.23.60470",
-              "templateHash": "5643177447182050438"
+              "version": "0.32.4.45862",
+              "templateHash": "907926791460586140"
             },
             "name": "API Management Service APIs Policies",
             "description": "This module deploys an API Management Service API Policy.",
@@ -430,8 +427,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.30.23.60470",
-              "templateHash": "2531959928497745895"
+              "version": "0.32.4.45862",
+              "templateHash": "12634911878831297857"
             },
             "name": "API Management Service APIs Diagnostics.",
             "description": "This module deploys an API Management Service API Diagnostics.",

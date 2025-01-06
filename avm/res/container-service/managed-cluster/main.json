@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.30.23.60470",
-      "templateHash": "14675004991337717729"
+      "version": "0.32.4.45862",
+      "templateHash": "18251238178967135661"
     },
     "name": "Azure Kubernetes Service (AKS) Managed Clusters",
     "description": "This module deploys an Azure Kubernetes Service (AKS) Managed Cluster.",
@@ -314,266 +314,15 @@
         }
       },
       "metadata": {
-        "__bicep_export!": true
-      }
-    },
-    "managedIdentitiesType": {
-      "type": "object",
-      "properties": {
-        "systemAssigned": {
-          "type": "bool",
-          "nullable": true,
-          "metadata": {
-            "description": "Optional. Enables system assigned managed identity on the resource."
-          }
-        },
-        "userAssignedResourcesIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "nullable": true,
-          "metadata": {
-            "description": "Optional. The resource ID(s) to assign to the resource."
-          }
-        }
-      },
-      "metadata": {
-        "__bicep_export!": true
-      }
-    },
-    "lockType": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "nullable": true,
-          "metadata": {
-            "description": "Optional. Specify the name of lock."
-          }
-        },
-        "kind": {
-          "type": "string",
-          "allowedValues": [
-            "CanNotDelete",
-            "None",
-            "ReadOnly"
-          ],
-          "nullable": true,
-          "metadata": {
-            "description": "Optional. Specify the type of lock."
-          }
-        }
-      },
-      "nullable": true,
-      "metadata": {
-        "__bicep_export!": true
-      }
-    },
-    "roleAssignmentType": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The name (as GUID) of the role assignment. If not provided, a GUID will be generated."
-            }
-          },
-          "roleDefinitionIdOrName": {
-            "type": "string",
-            "metadata": {
-              "description": "Required. The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: '/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11'."
-            }
-          },
-          "principalId": {
-            "type": "string",
-            "metadata": {
-              "description": "Required. The principal ID of the principal (user/group/identity) to assign the role to."
-            }
-          },
-          "principalType": {
-            "type": "string",
-            "allowedValues": [
-              "Device",
-              "ForeignGroup",
-              "Group",
-              "ServicePrincipal",
-              "User"
-            ],
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The principal type of the assigned principal ID."
-            }
-          },
-          "description": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The description of the role assignment."
-            }
-          },
-          "condition": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase \"foo_storage_container\"."
-            }
-          },
-          "conditionVersion": {
-            "type": "string",
-            "allowedValues": [
-              "2.0"
-            ],
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. Version of the condition."
-            }
-          },
-          "delegatedManagedIdentityResourceId": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The Resource Id of the delegated managed identity resource."
-            }
-          }
-        }
-      },
-      "nullable": true,
-      "metadata": {
-        "__bicep_export!": true
-      }
-    },
-    "diagnosticSettingType": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The name of diagnostic setting."
-            }
-          },
-          "logCategoriesAndGroups": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "category": {
-                  "type": "string",
-                  "nullable": true,
-                  "metadata": {
-                    "description": "Optional. Name of a Diagnostic Log category for a resource type this setting is applied to. Set the specific logs to collect here."
-                  }
-                },
-                "categoryGroup": {
-                  "type": "string",
-                  "nullable": true,
-                  "metadata": {
-                    "description": "Optional. Name of a Diagnostic Log category group for a resource type this setting is applied to. Set to `allLogs` to collect all logs."
-                  }
-                },
-                "enabled": {
-                  "type": "bool",
-                  "nullable": true,
-                  "metadata": {
-                    "description": "Optional. Enable or disable the category explicitly. Default is `true`."
-                  }
-                }
-              }
-            },
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The name of logs that will be streamed. \"allLogs\" includes all possible logs for the resource. Set to `[]` to disable log collection."
-            }
-          },
-          "metricCategories": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "category": {
-                  "type": "string",
-                  "metadata": {
-                    "description": "Required. Name of a Diagnostic Metric category for a resource type this setting is applied to. Set to `AllMetrics` to collect all metrics."
-                  }
-                },
-                "enabled": {
-                  "type": "bool",
-                  "nullable": true,
-                  "metadata": {
-                    "description": "Optional. Enable or disable the category explicitly. Default is `true`."
-                  }
-                }
-              }
-            },
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The name of metrics that will be streamed. \"allMetrics\" includes all possible metrics for the resource. Set to `[]` to disable metric collection."
-            }
-          },
-          "logAnalyticsDestinationType": {
-            "type": "string",
-            "allowedValues": [
-              "AzureDiagnostics",
-              "Dedicated"
-            ],
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type."
-            }
-          },
-          "workspaceResourceId": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. Resource ID of the diagnostic log analytics workspace. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub."
-            }
-          },
-          "storageAccountResourceId": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. Resource ID of the diagnostic storage account. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub."
-            }
-          },
-          "eventHubAuthorizationRuleResourceId": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. Resource ID of the diagnostic event hub authorization rule for the Event Hubs namespace in which the event hub should be created or streamed to."
-            }
-          },
-          "eventHubName": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. Name of the diagnostic event hub within the namespace to which logs are streamed. Without this, an event hub is created for each log category. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub."
-            }
-          },
-          "marketplacePartnerResourceId": {
-            "type": "string",
-            "nullable": true,
-            "metadata": {
-              "description": "Optional. The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs."
-            }
-          }
-        }
-      },
-      "nullable": true,
-      "metadata": {
-        "__bicep_export!": true
+        "__bicep_export!": true,
+        "description": "The type for an agent pool."
       }
     },
     "fluxConfigurationProtectedSettingsType": {
       "type": "object",
       "properties": {
         "sshPrivateKey": {
-          "type": "string",
+          "type": "securestring",
           "nullable": true,
           "metadata": {
             "description": "Optional. The SSH private key to use for Git authentication."
@@ -581,7 +330,8 @@
         }
       },
       "metadata": {
-        "__bicep_export!": true
+        "__bicep_export!": true,
+        "description": "The type for flux configuration protected settings."
       }
     },
     "extensionType": {
@@ -591,7 +341,7 @@
           "type": "string",
           "nullable": true,
           "metadata": {
-            "description": "Required. The name of the extension."
+            "description": "Optional. The name of the extension."
           }
         },
         "releaseNamespace": {
@@ -612,7 +362,7 @@
           "type": "string",
           "nullable": true,
           "metadata": {
-            "description": "Required. The release train of the extension."
+            "description": "Optional. The release train of the extension."
           }
         },
         "configurationProtectedSettings": {
@@ -645,44 +395,8 @@
         }
       },
       "metadata": {
-        "__bicep_export!": true
-      }
-    },
-    "customerManagedKeyType": {
-      "type": "object",
-      "properties": {
-        "keyVaultResourceId": {
-          "type": "string",
-          "metadata": {
-            "description": "Required. The resource ID of a key vault to reference a customer managed key for encryption from."
-          }
-        },
-        "keyName": {
-          "type": "string",
-          "metadata": {
-            "description": "Required. The name of the customer managed key to use for encryption."
-          }
-        },
-        "keyVersion": {
-          "type": "string",
-          "nullable": true,
-          "metadata": {
-            "description": "Optional. The version of the customer managed key to reference for encryption. If not provided, using 'latest'."
-          }
-        },
-        "keyVaultNetworkAccess": {
-          "type": "string",
-          "allowedValues": [
-            "Private",
-            "Public"
-          ],
-          "metadata": {
-            "description": "Required. Network access of key vault. The possible values are Public and Private. Public means the key vault allows public access from all networks. Private means the key vault disables public access and enables private link. The default value is Public."
-          }
-        }
-      },
-      "metadata": {
-        "__bicep_export!": true
+        "__bicep_export!": true,
+        "description": "The type for an extension."
       }
     },
     "maintenanceConfigurationType": {
@@ -706,7 +420,361 @@
         }
       },
       "metadata": {
-        "__bicep_export!": true
+        "__bicep_export!": true,
+        "description": "The type of a mainenance configuration."
+      }
+    },
+    "istioServiceMeshCertificateAuthorityType": {
+      "type": "object",
+      "properties": {
+        "keyVaultResourceId": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. The resource ID of a key vault to reference a Certificate Authority from."
+          }
+        },
+        "certChainObjectName": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. The Certificate chain object name in Azure Key Vault."
+          }
+        },
+        "certObjectName": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. The Intermediate certificate object name in Azure Key Vault."
+          }
+        },
+        "keyObjectName": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. The Intermediate certificate private key object name in Azure Key Vault."
+          }
+        },
+        "rootCertObjectName": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. Root certificate object name in Azure Key Vault."
+          }
+        }
+      },
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for an The Istio Certificate Authority definition."
+      }
+    },
+    "aadProfileType": {
+      "type": "object",
+      "properties": {
+        "aadProfileClientAppID": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The client AAD application ID."
+          }
+        },
+        "aadProfileServerAppID": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The server AAD application ID."
+          }
+        },
+        "aadProfileServerAppSecret": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The server AAD application secret."
+          }
+        },
+        "aadProfileManaged": {
+          "type": "bool",
+          "metadata": {
+            "description": "Required. Specifies whether to enable managed AAD integration."
+          }
+        },
+        "aadProfileEnableAzureRBAC": {
+          "type": "bool",
+          "metadata": {
+            "description": "Required. Specifies whether to enable Azure RBAC for Kubernetes authorization."
+          }
+        },
+        "aadProfileAdminGroupObjectIDs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Specifies the AAD group object IDs that will have admin role of the cluster."
+          }
+        },
+        "aadProfileTenantId": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Specifies the tenant ID of the Azure Active Directory used by the AKS cluster for authentication."
+          }
+        }
+      },
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for an AAD profile."
+      }
+    },
+    "diagnosticSettingFullType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The name of the diagnostic setting."
+          }
+        },
+        "logCategoriesAndGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "nullable": true,
+                "metadata": {
+                  "description": "Optional. Name of a Diagnostic Log category for a resource type this setting is applied to. Set the specific logs to collect here."
+                }
+              },
+              "categoryGroup": {
+                "type": "string",
+                "nullable": true,
+                "metadata": {
+                  "description": "Optional. Name of a Diagnostic Log category group for a resource type this setting is applied to. Set to `allLogs` to collect all logs."
+                }
+              },
+              "enabled": {
+                "type": "bool",
+                "nullable": true,
+                "metadata": {
+                  "description": "Optional. Enable or disable the category explicitly. Default is `true`."
+                }
+              }
+            }
+          },
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The name of logs that will be streamed. \"allLogs\" includes all possible logs for the resource. Set to `[]` to disable log collection."
+          }
+        },
+        "metricCategories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "metadata": {
+                  "description": "Required. Name of a Diagnostic Metric category for a resource type this setting is applied to. Set to `AllMetrics` to collect all metrics."
+                }
+              },
+              "enabled": {
+                "type": "bool",
+                "nullable": true,
+                "metadata": {
+                  "description": "Optional. Enable or disable the category explicitly. Default is `true`."
+                }
+              }
+            }
+          },
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The name of metrics that will be streamed. \"allMetrics\" includes all possible metrics for the resource. Set to `[]` to disable metric collection."
+          }
+        },
+        "logAnalyticsDestinationType": {
+          "type": "string",
+          "allowedValues": [
+            "AzureDiagnostics",
+            "Dedicated"
+          ],
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type."
+          }
+        },
+        "workspaceResourceId": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Resource ID of the diagnostic log analytics workspace. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub."
+          }
+        },
+        "storageAccountResourceId": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Resource ID of the diagnostic storage account. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub."
+          }
+        },
+        "eventHubAuthorizationRuleResourceId": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Resource ID of the diagnostic event hub authorization rule for the Event Hubs namespace in which the event hub should be created or streamed to."
+          }
+        },
+        "eventHubName": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Name of the diagnostic event hub within the namespace to which logs are streamed. Without this, an event hub is created for each log category. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub."
+          }
+        },
+        "marketplacePartnerResourceId": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs."
+          }
+        }
+      },
+      "metadata": {
+        "description": "An AVM-aligned type for a diagnostic setting. To be used if both logs & metrics are supported by the resource provider.",
+        "__bicep_imported_from!": {
+          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.4.1"
+        }
+      }
+    },
+    "lockType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Specify the name of lock."
+          }
+        },
+        "kind": {
+          "type": "string",
+          "allowedValues": [
+            "CanNotDelete",
+            "None",
+            "ReadOnly"
+          ],
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Specify the type of lock."
+          }
+        }
+      },
+      "metadata": {
+        "description": "An AVM-aligned type for a lock.",
+        "__bicep_imported_from!": {
+          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.4.1"
+        }
+      }
+    },
+    "managedIdentityAllType": {
+      "type": "object",
+      "properties": {
+        "systemAssigned": {
+          "type": "bool",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Enables system assigned managed identity on the resource."
+          }
+        },
+        "userAssignedResourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption."
+          }
+        }
+      },
+      "metadata": {
+        "description": "An AVM-aligned type for a managed identity configuration. To be used if both a system-assigned & user-assigned identities are supported by the resource provider.",
+        "__bicep_imported_from!": {
+          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.4.1"
+        }
+      }
+    },
+    "roleAssignmentType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The name (as GUID) of the role assignment. If not provided, a GUID will be generated."
+          }
+        },
+        "roleDefinitionIdOrName": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: '/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11'."
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "metadata": {
+            "description": "Required. The principal ID of the principal (user/group/identity) to assign the role to."
+          }
+        },
+        "principalType": {
+          "type": "string",
+          "allowedValues": [
+            "Device",
+            "ForeignGroup",
+            "Group",
+            "ServicePrincipal",
+            "User"
+          ],
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The principal type of the assigned principal ID."
+          }
+        },
+        "description": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The description of the role assignment."
+          }
+        },
+        "condition": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase \"foo_storage_container\"."
+          }
+        },
+        "conditionVersion": {
+          "type": "string",
+          "allowedValues": [
+            "2.0"
+          ],
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Version of the condition."
+          }
+        },
+        "delegatedManagedIdentityResourceId": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. The Resource Id of the delegated managed identity resource."
+          }
+        }
+      },
+      "metadata": {
+        "description": "An AVM-aligned type for a role assignment.",
+        "__bicep_imported_from!": {
+          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.4.1"
+        }
       }
     }
   },
@@ -732,7 +800,7 @@
       }
     },
     "managedIdentities": {
-      "$ref": "#/definitions/managedIdentitiesType",
+      "$ref": "#/definitions/managedIdentityAllType",
       "nullable": true,
       "metadata": {
         "description": "Optional. The managed identity definition for this resource. Only one type of identity is supported: system-assigned or user-assigned, but not both."
@@ -775,7 +843,8 @@
       "nullable": true,
       "allowedValues": [
         "azure",
-        "calico"
+        "calico",
+        "cilium"
       ],
       "metadata": {
         "description": "Optional. Specifies the network policy used for building Kubernetes network. - calico or azure."
@@ -844,6 +913,17 @@
         "description": "Optional. Specifies outbound (egress) routing method."
       }
     },
+    "skuName": {
+      "type": "string",
+      "defaultValue": "Base",
+      "allowedValues": [
+        "Base",
+        "Automatic"
+      ],
+      "metadata": {
+        "description": "Optional. Name of a managed cluster SKU. AUTOMATIC CLUSTER SKU IS A PARAMETER USED FOR A PREVIEW FEATURE, MICROSOFT MAY NOT PROVIDE SUPPORT FOR THIS, PLEASE CHECK THE [PRODUCT DOCS](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-automatic-deploy?pivots=bicep#before-you-begin) FOR CLARIFICATION."
+      }
+    },
     "skuTier": {
       "type": "string",
       "defaultValue": "Standard",
@@ -877,56 +957,18 @@
         "description": "Optional. Specifies the SSH RSA public key string for the Linux nodes."
       }
     },
+    "aadProfile": {
+      "$ref": "#/definitions/aadProfileType",
+      "nullable": true,
+      "metadata": {
+        "description": "Optional. Enable Azure Active Directory integration."
+      }
+    },
     "aksServicePrincipalProfile": {
       "type": "object",
       "nullable": true,
       "metadata": {
         "description": "Conditional. Information about a service principal identity for the cluster to use for manipulating Azure APIs. Required if no managed identities are assigned to the cluster."
-      }
-    },
-    "aadProfileClientAppID": {
-      "type": "string",
-      "nullable": true,
-      "metadata": {
-        "description": "Optional. The client AAD application ID."
-      }
-    },
-    "aadProfileServerAppID": {
-      "type": "string",
-      "nullable": true,
-      "metadata": {
-        "description": "Optional. The server AAD application ID."
-      }
-    },
-    "aadProfileServerAppSecret": {
-      "type": "string",
-      "nullable": true,
-      "metadata": {
-        "description": "Optional. The server AAD application secret."
-      }
-    },
-    "aadProfileTenantId": {
-      "type": "string",
-      "defaultValue": "[subscription().tenantId]",
-      "metadata": {
-        "description": "Optional. Specifies the tenant ID of the Azure Active Directory used by the AKS cluster for authentication."
-      }
-    },
-    "aadProfileAdminGroupObjectIDs": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "nullable": true,
-      "metadata": {
-        "description": "Optional. Specifies the AAD group object IDs that will have admin role of the cluster."
-      }
-    },
-    "aadProfileManaged": {
-      "type": "bool",
-      "defaultValue": true,
-      "metadata": {
-        "description": "Optional. Specifies whether to enable managed AAD integration."
       }
     },
     "enableRBAC": {
@@ -936,13 +978,6 @@
         "description": "Optional. Whether to enable Kubernetes Role-Based Access Control."
       }
     },
-    "aadProfileEnableAzureRBAC": {
-      "type": "bool",
-      "defaultValue": "[parameters('enableRBAC')]",
-      "metadata": {
-        "description": "Optional. Specifies whether to enable Azure RBAC for Kubernetes authorization."
-      }
-    },
     "disableLocalAccounts": {
       "type": "bool",
       "defaultValue": true,
@@ -950,11 +985,29 @@
         "description": "Optional. If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled."
       }
     },
+    "nodeProvisioningProfileMode": {
+      "type": "string",
+      "nullable": true,
+      "allowedValues": [
+        "Auto",
+        "Manual"
+      ],
+      "metadata": {
+        "description": "Optional. Node provisioning settings that apply to the whole cluster. AUTO MODE IS A PARAMETER USED FOR A PREVIEW FEATURE, MICROSOFT MAY NOT PROVIDE SUPPORT FOR THIS, PLEASE CHECK THE [PRODUCT DOCS](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-automatic-deploy?pivots=bicep#before-you-begin) FOR CLARIFICATION."
+      }
+    },
     "nodeResourceGroup": {
       "type": "string",
       "defaultValue": "[format('{0}_aks_{1}_nodes', resourceGroup().name, parameters('name'))]",
       "metadata": {
         "description": "Optional. Name of the resource group containing agent pool nodes."
+      }
+    },
+    "nodeResourceGroupProfile": {
+      "type": "object",
+      "nullable": true,
+      "metadata": {
+        "description": "Optional. The node resource group configuration profile."
       }
     },
     "authorizedIPRanges": {
@@ -1397,7 +1450,11 @@
       }
     },
     "diagnosticSettings": {
-      "$ref": "#/definitions/diagnosticSettingType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/diagnosticSettingFullType"
+      },
+      "nullable": true,
       "metadata": {
         "description": "Optional. The diagnostic settings of the service."
       }
@@ -1424,13 +1481,18 @@
       }
     },
     "roleAssignments": {
-      "$ref": "#/definitions/roleAssignmentType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/roleAssignmentType"
+      },
+      "nullable": true,
       "metadata": {
         "description": "Optional. Array of role assignments to create."
       }
     },
     "lock": {
       "$ref": "#/definitions/lockType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. The lock settings of the service."
       }
@@ -1484,13 +1546,6 @@
         "description": "Optional. Whether to enable VPA add-on in cluster. Default value is false."
       }
     },
-    "customerManagedKey": {
-      "$ref": "#/definitions/customerManagedKeyType",
-      "nullable": true,
-      "metadata": {
-        "description": "Optional. The customer managed key definition."
-      }
-    },
     "enableAzureMonitorProfileMetrics": {
       "type": "bool",
       "defaultValue": false,
@@ -1539,6 +1594,41 @@
       "metadata": {
         "description": "Optional. A comma-separated list of Kubernetes cluster metrics annotations."
       }
+    },
+    "istioServiceMeshEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Optional. Specifies whether the Istio ServiceMesh add-on is enabled or not."
+      }
+    },
+    "istioServiceMeshRevisions": {
+      "type": "array",
+      "nullable": true,
+      "metadata": {
+        "description": "Optional. The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values."
+      }
+    },
+    "istioServiceMeshInternalIngressGatewayEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Optional. Specifies whether the Internal Istio Ingress Gateway is enabled or not."
+      }
+    },
+    "istioServiceMeshExternalIngressGatewayEnabled": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Optional. Specifies whether the External Istio Ingress Gateway is enabled or not."
+      }
+    },
+    "istioServiceMeshCertificateAuthority": {
+      "$ref": "#/definitions/istioServiceMeshCertificateAuthorityType",
+      "nullable": true,
+      "metadata": {
+        "description": "Optional. The Istio Certificate Authority definition."
+      }
     }
   },
   "variables": {
@@ -1549,8 +1639,8 @@
         "input": "[union(coalesce(parameters('roleAssignments'), createArray())[copyIndex('formattedRoleAssignments')], createObject('roleDefinitionId', coalesce(tryGet(variables('builtInRoleNames'), coalesce(parameters('roleAssignments'), createArray())[copyIndex('formattedRoleAssignments')].roleDefinitionIdOrName), if(contains(coalesce(parameters('roleAssignments'), createArray())[copyIndex('formattedRoleAssignments')].roleDefinitionIdOrName, '/providers/Microsoft.Authorization/roleDefinitions/'), coalesce(parameters('roleAssignments'), createArray())[copyIndex('formattedRoleAssignments')].roleDefinitionIdOrName, subscriptionResourceId('Microsoft.Authorization/roleDefinitions', coalesce(parameters('roleAssignments'), createArray())[copyIndex('formattedRoleAssignments')].roleDefinitionIdOrName)))))]"
       }
     ],
-    "formattedUserAssignedIdentities": "[reduce(map(coalesce(tryGet(parameters('managedIdentities'), 'userAssignedResourcesIds'), createArray()), lambda('id', createObject(format('{0}', lambdaVariables('id')), createObject()))), createObject(), lambda('cur', 'next', union(lambdaVariables('cur'), lambdaVariables('next'))))]",
-    "identity": "[if(not(empty(parameters('managedIdentities'))), createObject('type', if(coalesce(tryGet(parameters('managedIdentities'), 'systemAssigned'), false()), 'SystemAssigned', if(not(empty(coalesce(tryGet(parameters('managedIdentities'), 'userAssignedResourcesIds'), createObject()))), 'UserAssigned', null())), 'userAssignedIdentities', if(not(empty(variables('formattedUserAssignedIdentities'))), variables('formattedUserAssignedIdentities'), null())), null())]",
+    "formattedUserAssignedIdentities": "[reduce(map(coalesce(tryGet(parameters('managedIdentities'), 'userAssignedResourceIds'), createArray()), lambda('id', createObject(format('{0}', lambdaVariables('id')), createObject()))), createObject(), lambda('cur', 'next', union(lambdaVariables('cur'), lambdaVariables('next'))))]",
+    "identity": "[if(not(empty(parameters('managedIdentities'))), createObject('type', if(coalesce(tryGet(parameters('managedIdentities'), 'systemAssigned'), false()), 'SystemAssigned', if(not(empty(coalesce(tryGet(parameters('managedIdentities'), 'userAssignedResourceIds'), createObject()))), 'UserAssigned', null())), 'userAssignedIdentities', if(not(empty(variables('formattedUserAssignedIdentities'))), variables('formattedUserAssignedIdentities'), null())), null())]",
     "builtInRoleNames": {
       "Azure Kubernetes Fleet Manager Contributor Role": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '63bb64ad-9799-4770-b5c3-24ed299a07bf')]",
       "Azure Kubernetes Fleet Manager RBAC Admin": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '434fb43a-c01c-447e-9f67-c3ad923cfaba')]",
@@ -1574,18 +1664,6 @@
     }
   },
   "resources": {
-    "cMKKeyVault::cMKKey": {
-      "condition": "[and(not(empty(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'))), and(not(empty(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'))), not(empty(tryGet(parameters('customerManagedKey'), 'keyName')))))]",
-      "existing": true,
-      "type": "Microsoft.KeyVault/vaults/keys",
-      "apiVersion": "2023-02-01",
-      "subscriptionId": "[split(coalesce(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'), '//'), '/')[2]]",
-      "resourceGroup": "[split(coalesce(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'), '////'), '/')[4]]",
-      "name": "[format('{0}/{1}', last(split(coalesce(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'), 'dummyVault'), '/')), coalesce(tryGet(parameters('customerManagedKey'), 'keyName'), 'dummyKey'))]",
-      "dependsOn": [
-        "cMKKeyVault"
-      ]
-    },
     "avmTelemetry": {
       "condition": "[parameters('enableTelemetry')]",
       "type": "Microsoft.Resources/deployments",
@@ -1606,15 +1684,6 @@
         }
       }
     },
-    "cMKKeyVault": {
-      "condition": "[not(empty(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId')))]",
-      "existing": true,
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2023-02-01",
-      "subscriptionId": "[split(coalesce(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'), '//'), '/')[2]]",
-      "resourceGroup": "[split(coalesce(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'), '////'), '/')[4]]",
-      "name": "[last(split(coalesce(tryGet(parameters('customerManagedKey'), 'keyVaultResourceId'), 'dummyVault'), '/'))]"
-    },
     "managedCluster": {
       "type": "Microsoft.ContainerService/managedClusters",
       "apiVersion": "2024-03-02-preview",
@@ -1623,7 +1692,7 @@
       "tags": "[parameters('tags')]",
       "identity": "[variables('identity')]",
       "sku": {
-        "name": "Base",
+        "name": "[parameters('skuName')]",
         "tier": "[parameters('skuTier')]"
       },
       "properties": {
@@ -1681,6 +1750,8 @@
         "enableRBAC": "[parameters('enableRBAC')]",
         "disableLocalAccounts": "[parameters('disableLocalAccounts')]",
         "nodeResourceGroup": "[parameters('nodeResourceGroup')]",
+        "nodeResourceGroupProfile": "[parameters('nodeResourceGroupProfile')]",
+        "nodeProvisioningProfile": "[if(not(empty(parameters('nodeProvisioningProfileMode'))), createObject('mode', parameters('nodeProvisioningProfileMode')), null())]",
         "enablePodSecurityPolicy": "[parameters('enablePodSecurityPolicy')]",
         "workloadAutoScalerProfile": {
           "keda": {
@@ -1693,8 +1764,8 @@
         "networkProfile": {
           "networkDataplane": "[parameters('networkDataplane')]",
           "networkPlugin": "[parameters('networkPlugin')]",
-          "networkPluginMode": "[parameters('networkPluginMode')]",
-          "networkPolicy": "[parameters('networkPolicy')]",
+          "networkPluginMode": "[if(equals(parameters('networkDataplane'), 'cilium'), 'overlay', parameters('networkPluginMode'))]",
+          "networkPolicy": "[if(equals(parameters('networkDataplane'), 'cilium'), 'cilium', parameters('networkPolicy'))]",
           "podCidr": "[parameters('podCidr')]",
           "serviceCidr": "[parameters('serviceCidr')]",
           "dnsServiceIP": "[parameters('dnsServiceIP')]",
@@ -1707,15 +1778,7 @@
           }
         },
         "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-        "aadProfile": {
-          "clientAppID": "[parameters('aadProfileClientAppID')]",
-          "serverAppID": "[parameters('aadProfileServerAppID')]",
-          "serverAppSecret": "[parameters('aadProfileServerAppSecret')]",
-          "managed": "[parameters('aadProfileManaged')]",
-          "enableAzureRBAC": "[parameters('aadProfileEnableAzureRBAC')]",
-          "adminGroupObjectIDs": "[parameters('aadProfileAdminGroupObjectIDs')]",
-          "tenantID": "[parameters('aadProfileTenantId')]"
-        },
+        "aadProfile": "[if(not(empty(parameters('aadProfile'))), createObject('clientAppID', tryGet(parameters('aadProfile'), 'aadProfileClientAppID'), 'serverAppID', tryGet(parameters('aadProfile'), 'aadProfileServerAppID'), 'serverAppSecret', tryGet(parameters('aadProfile'), 'aadProfileServerAppSecret'), 'managed', tryGet(parameters('aadProfile'), 'aadProfileManaged'), 'enableAzureRBAC', tryGet(parameters('aadProfile'), 'aadProfileEnableAzureRBAC'), 'adminGroupObjectIDs', tryGet(parameters('aadProfile'), 'aadProfileAdminGroupObjectIDs'), 'tenantID', tryGet(parameters('aadProfile'), 'aadProfileTenantId')), null())]",
         "autoScalerProfile": {
           "balance-similar-node-groups": "[toLower(string(parameters('autoScalerProfileBalanceSimilarNodeGroups')))]",
           "expander": "[parameters('autoScalerProfileExpander')]",
@@ -1775,7 +1838,8 @@
             "enabled": "[parameters('enableStorageProfileSnapshotController')]"
           }
         },
-        "supportPlan": "[parameters('supportPlan')]"
+        "supportPlan": "[parameters('supportPlan')]",
+        "serviceMeshProfile": "[if(parameters('istioServiceMeshEnabled'), createObject('istio', createObject('revisions', if(not(empty(parameters('istioServiceMeshRevisions'))), parameters('istioServiceMeshRevisions'), null()), 'components', createObject('ingressGateways', createArray(createObject('enabled', parameters('istioServiceMeshInternalIngressGatewayEnabled'), 'mode', 'Internal'), createObject('enabled', parameters('istioServiceMeshExternalIngressGatewayEnabled'), 'mode', 'External'))), 'certificateAuthority', if(not(empty(parameters('istioServiceMeshCertificateAuthority'))), createObject('plugin', createObject('certChainObjectName', tryGet(parameters('istioServiceMeshCertificateAuthority'), 'certChainObjectName'), 'certObjectName', tryGet(parameters('istioServiceMeshCertificateAuthority'), 'certObjectName'), 'keyObjectName', tryGet(parameters('istioServiceMeshCertificateAuthority'), 'keyObjectName'), 'keyVaultId', tryGet(parameters('istioServiceMeshCertificateAuthority'), 'keyVaultResourceId'), 'rootCertObjectName', tryGet(parameters('istioServiceMeshCertificateAuthority'), 'rootCertObjectName'))), null())), 'mode', 'Istio'), null())]"
       }
     },
     "managedCluster_lock": {
@@ -1874,7 +1938,6 @@
         "principalType": "ServicePrincipal"
       },
       "dependsOn": [
-        "dnsZone",
         "managedCluster"
       ]
     },
@@ -1908,8 +1971,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.30.23.60470",
-              "templateHash": "2505380725266419010"
+              "version": "0.32.4.45862",
+              "templateHash": "14523573481456452623"
             },
             "name": "Azure Kubernetes Service (AKS) Managed Cluster Maintenance Configurations",
             "description": "This module deploys an Azure Kubernetes Service (AKS) Managed Cluster Maintenance Configurations.",
@@ -2105,8 +2168,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.30.23.60470",
-              "templateHash": "13856766172443517827"
+              "version": "0.32.4.45862",
+              "templateHash": "8195372149835761348"
             },
             "name": "Azure Kubernetes Service (AKS) Managed Cluster Agent Pools",
             "description": "This module deploys an Azure Kubernetes Service (AKS) Managed Cluster Agent Pool.",
@@ -2455,10 +2518,7 @@
                 "vmSize": "[parameters('vmSize')]",
                 "vnetSubnetID": "[parameters('vnetSubnetResourceId')]",
                 "workloadRuntime": "[parameters('workloadRuntime')]"
-              },
-              "dependsOn": [
-                "managedCluster"
-              ]
+              }
             }
           },
           "outputs": {
@@ -2523,7 +2583,7 @@
             "value": "[parameters('location')]"
           },
           "name": {
-            "value": "flux"
+            "value": "[coalesce(tryGet(parameters('fluxExtension'), 'name'), 'flux')]"
           },
           "releaseNamespace": {
             "value": "[coalesce(tryGet(parameters('fluxExtension'), 'releaseNamespace'), 'flux-system')]"
@@ -2968,59 +3028,67 @@
     },
     "systemAssignedMIPrincipalId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The principal ID of the system assigned identity."
       },
-      "value": "[coalesce(tryGet(tryGet(reference('managedCluster', '2024-03-02-preview', 'full'), 'identity'), 'principalId'), '')]"
+      "value": "[tryGet(tryGet(reference('managedCluster', '2024-03-02-preview', 'full'), 'identity'), 'principalId')]"
     },
     "kubeletIdentityClientId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Client ID of the AKS identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(reference('managedCluster'), 'identityProfile'), 'kubeletidentity'), 'clientId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(reference('managedCluster'), 'identityProfile'), 'kubeletidentity'), 'clientId')]"
     },
     "kubeletIdentityObjectId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Object ID of the AKS identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(reference('managedCluster'), 'identityProfile'), 'kubeletidentity'), 'objectId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(reference('managedCluster'), 'identityProfile'), 'kubeletidentity'), 'objectId')]"
     },
     "kubeletIdentityResourceId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Resource ID of the AKS identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(reference('managedCluster'), 'identityProfile'), 'kubeletidentity'), 'resourceId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(reference('managedCluster'), 'identityProfile'), 'kubeletidentity'), 'resourceId')]"
     },
     "omsagentIdentityObjectId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Object ID of the OMS agent identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'omsagent'), 'identity'), 'objectId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'omsagent'), 'identity'), 'objectId')]"
     },
     "keyvaultIdentityObjectId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Object ID of the Key Vault Secrets Provider identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'azureKeyvaultSecretsProvider'), 'identity'), 'objectId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'azureKeyvaultSecretsProvider'), 'identity'), 'objectId')]"
     },
     "keyvaultIdentityClientId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Client ID of the Key Vault Secrets Provider identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'azureKeyvaultSecretsProvider'), 'identity'), 'clientId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'azureKeyvaultSecretsProvider'), 'identity'), 'clientId')]"
     },
     "ingressApplicationGatewayIdentityObjectId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Object ID of Application Gateway Ingress Controller (AGIC) identity."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'ingressApplicationGateway'), 'identity'), 'objectId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'addonProfiles'), 'ingressApplicationGateway'), 'identity'), 'objectId')]"
     },
     "location": {
       "type": "string",
@@ -3031,24 +3099,27 @@
     },
     "oidcIssuerUrl": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The OIDC token issuer URL."
       },
-      "value": "[coalesce(tryGet(tryGet(reference('managedCluster'), 'oidcIssuerProfile'), 'issuerURL'), '')]"
+      "value": "[tryGet(tryGet(reference('managedCluster'), 'oidcIssuerProfile'), 'issuerURL')]"
     },
     "addonProfiles": {
       "type": "object",
+      "nullable": true,
       "metadata": {
         "description": "The addonProfiles of the Kubernetes cluster."
       },
-      "value": "[coalesce(tryGet(reference('managedCluster'), 'addonProfiles'), createObject())]"
+      "value": "[tryGet(reference('managedCluster'), 'addonProfiles')]"
     },
     "webAppRoutingIdentityObjectId": {
       "type": "string",
+      "nullable": true,
       "metadata": {
         "description": "The Object ID of Web Application Routing."
       },
-      "value": "[coalesce(tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'ingressProfile'), 'webAppRouting'), 'identity'), 'objectId'), '')]"
+      "value": "[tryGet(tryGet(tryGet(tryGet(reference('managedCluster'), 'ingressProfile'), 'webAppRouting'), 'identity'), 'objectId')]"
     }
   }
 }

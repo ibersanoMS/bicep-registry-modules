@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.28.1.47646",
-      "templateHash": "6681425649721370761"
+      "version": "0.32.4.45862",
+      "templateHash": "16243868201799712200"
     },
     "name": "Digital Twins Instances",
     "description": "This module deploys an Azure Digital Twins Instance.",
@@ -207,7 +207,7 @@
                   "type": "string",
                   "nullable": true,
                   "metadata": {
-                    "description": "Required. Fqdn that resolves to private endpoint IP address."
+                    "description": "Optional. FQDN that resolves to private endpoint IP address."
                   }
                 },
                 "ipAddresses": {
@@ -695,8 +695,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.28.1.47646",
-              "templateHash": "13720195975702696848"
+              "version": "0.32.4.45862",
+              "templateHash": "13923156882372448729"
             },
             "name": "Digital Twins Instance EventHub Endpoint",
             "description": "This module deploys a Digital Twins Instance EventHub Endpoint.",
@@ -822,10 +822,7 @@
                 "endpointUri": "[parameters('endpointUri')]",
                 "entityPath": "[parameters('entityPath')]",
                 "identity": "[variables('identity')]"
-              },
-              "dependsOn": [
-                "digitalTwinsInstance"
-              ]
+              }
             }
           },
           "outputs": {
@@ -893,8 +890,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.28.1.47646",
-              "templateHash": "17105935055209854005"
+              "version": "0.32.4.45862",
+              "templateHash": "14357918051528584394"
             },
             "name": "Digital Twins Instance Event Grid Endpoints",
             "description": "This module deploys a Digital Twins Instance Event Grid Endpoint.",
@@ -1020,8 +1017,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.28.1.47646",
-              "templateHash": "13764805272277592098"
+              "version": "0.32.4.45862",
+              "templateHash": "9917080858184002423"
             },
             "name": "Digital Twins Instance ServiceBus Endpoint",
             "description": "This module deploys a Digital Twins Instance ServiceBus Endpoint.",
@@ -1147,10 +1144,7 @@
                 "primaryConnectionString": "[parameters('primaryConnectionString')]",
                 "secondaryConnectionString": "[parameters('secondaryConnectionString')]",
                 "identity": "[variables('identity')]"
-              },
-              "dependsOn": [
-                "digitalTwinsInstance"
-              ]
+              }
             }
           },
           "outputs": {

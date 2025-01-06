@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.47.4906",
-      "templateHash": "13158990350519912635"
+      "version": "0.32.4.45862",
+      "templateHash": "14133310184627909384"
     },
     "name": "Relay Namespace Network Rules Sets",
     "description": "This module deploys a Relay Namespace Network Rule Set.",
@@ -66,10 +66,7 @@
         "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
         "defaultAction": "[if(equals(parameters('publicNetworkAccess'), 'Disabled'), null(), if(not(empty(parameters('ipRules'))), 'Deny', parameters('defaultAction')))]",
         "ipRules": "[if(equals(parameters('publicNetworkAccess'), 'Disabled'), null(), parameters('ipRules'))]"
-      },
-      "dependsOn": [
-        "namespace"
-      ]
+      }
     }
   },
   "outputs": {

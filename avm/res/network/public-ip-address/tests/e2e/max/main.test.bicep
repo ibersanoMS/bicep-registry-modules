@@ -42,7 +42,7 @@ module nestedDependencies 'dependencies.bicep' = {
 
 // Diagnostics
 // ===========
-module diagnosticDependencies '../../../../../../../avm/utilities/e2e-template-assets/templates/diagnostic.dependencies.bicep' = {
+module diagnosticDependencies '../../../../../../../utilities/e2e-template-assets/templates/diagnostic.dependencies.bicep' = {
   scope: resourceGroup
   name: '${uniqueString(deployment().name, resourceLocation)}-diagnosticDependencies'
   params: {
@@ -71,6 +71,12 @@ module testDeployment '../../../main.bicep' = [
       }
       dnsSettings: null
       ddosSettings: null
+      ipTags: [
+        {
+          ipTagType: 'RoutingPreference'
+          tag: 'Internet'
+        }
+      ]
       publicIpPrefixResourceId: null
       publicIPAllocationMethod: 'Static'
       roleAssignments: [

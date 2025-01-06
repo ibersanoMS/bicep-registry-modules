@@ -11,8 +11,9 @@ param location string = resourceGroup().location
 @description('Optional. Specifies the DNS prefix specified when creating the managed cluster.')
 param dnsPrefix string = name
 
+import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
 @description('Optional. The managed identity definition for this resource. Only one type of identity is supported: system-assigned or user-assigned, but not both.')
-param managedIdentities managedIdentitiesType?
+param managedIdentities managedIdentityAllType?
 
 @description('Optional. Network dataplane used in the Kubernetes cluster. Not compatible with kubenet network plugin.')
 @allowed([
@@ -38,6 +39,7 @@ param networkPluginMode string?
 @allowed([
   'azure'
   'calico'
+  'cilium'
 ])
 param networkPolicy string?
 
@@ -76,6 +78,13 @@ param backendPoolType string = 'NodeIPConfiguration'
 ])
 param outboundType string = 'loadBalancer'
 
+@description('Optional. Name of a managed cluster SKU. AUTOMATIC CLUSTER SKU IS A PARAMETER USED FOR A PREVIEW FEATURE, MICROSOFT MAY NOT PROVIDE SUPPORT FOR THIS, PLEASE CHECK THE [PRODUCT DOCS](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-automatic-deploy?pivots=bicep#before-you-begin) FOR CLARIFICATION.')
+@allowed([
+  'Base'
+  'Automatic'
+])
+param skuName string = 'Base'
+
 @description('Optional. Tier of a managed cluster SKU.')
 @allowed([
   'Free'
@@ -93,39 +102,30 @@ param adminUsername string = 'azureuser'
 @description('Optional. Specifies the SSH RSA public key string for the Linux nodes.')
 param sshPublicKey string?
 
+@description('Optional. Enable Azure Active Directory integration.')
+param aadProfile aadProfileType?
+
 @description('Conditional. Information about a service principal identity for the cluster to use for manipulating Azure APIs. Required if no managed identities are assigned to the cluster.')
 param aksServicePrincipalProfile object?
-
-@description('Optional. The client AAD application ID.')
-param aadProfileClientAppID string?
-
-@description('Optional. The server AAD application ID.')
-param aadProfileServerAppID string?
-
-@description('Optional. The server AAD application secret.')
-#disable-next-line secure-secrets-in-params // Not a secret
-param aadProfileServerAppSecret string?
-
-@description('Optional. Specifies the tenant ID of the Azure Active Directory used by the AKS cluster for authentication.')
-param aadProfileTenantId string = subscription().tenantId
-
-@description('Optional. Specifies the AAD group object IDs that will have admin role of the cluster.')
-param aadProfileAdminGroupObjectIDs string[]?
-
-@description('Optional. Specifies whether to enable managed AAD integration.')
-param aadProfileManaged bool = true
 
 @description('Optional. Whether to enable Kubernetes Role-Based Access Control.')
 param enableRBAC bool = true
 
-@description('Optional. Specifies whether to enable Azure RBAC for Kubernetes authorization.')
-param aadProfileEnableAzureRBAC bool = enableRBAC
-
 @description('Optional. If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled.')
 param disableLocalAccounts bool = true
 
+@description('Optional. Node provisioning settings that apply to the whole cluster. AUTO MODE IS A PARAMETER USED FOR A PREVIEW FEATURE, MICROSOFT MAY NOT PROVIDE SUPPORT FOR THIS, PLEASE CHECK THE [PRODUCT DOCS](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-automatic-deploy?pivots=bicep#before-you-begin) FOR CLARIFICATION.')
+@allowed([
+  'Auto'
+  'Manual'
+])
+param nodeProvisioningProfileMode string?
+
 @description('Optional. Name of the resource group containing agent pool nodes.')
 param nodeResourceGroup string = '${resourceGroup().name}_aks_${name}_nodes'
+
+@description('Optional. The node resource group configuration profile.')
+param nodeResourceGroupProfile object?
 
 @description('Optional. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer.')
 param authorizedIPRanges string[]?
@@ -329,8 +329,9 @@ param enableStorageProfileSnapshotController bool = false
 @description('Optional. The support plan for the Managed Cluster.')
 param supportPlan string = 'KubernetesOfficial'
 
+import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
 @description('Optional. The diagnostic settings of the service.')
-param diagnosticSettings diagnosticSettingType
+param diagnosticSettings diagnosticSettingFullType[]?
 
 @description('Optional. Specifies whether the OMS agent is enabled.')
 param omsAgentEnabled bool = true
@@ -341,11 +342,13 @@ param monitoringWorkspaceResourceId string?
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
+import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
 @description('Optional. Array of role assignments to create.')
-param roleAssignments roleAssignmentType
+param roleAssignments roleAssignmentType[]?
 
+import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
 @description('Optional. The lock settings of the service.')
-param lock lockType
+param lock lockType?
 
 @description('Optional. Tags of the resource.')
 param tags object?
@@ -368,9 +371,6 @@ param kedaAddon bool = false
 @description('Optional. Whether to enable VPA add-on in cluster. Default value is false.')
 param vpaAddon bool = false
 
-@description('Optional. The customer managed key definition.')
-param customerManagedKey customerManagedKeyType?
-
 @description('Optional. Whether the metric state of the kubenetes cluster is enabled.')
 param enableAzureMonitorProfileMetrics bool = false
 
@@ -392,12 +392,27 @@ param metricLabelsAllowlist string = ''
 @description('Optional. A comma-separated list of Kubernetes cluster metrics annotations.')
 param metricAnnotationsAllowList string = ''
 
+@description('Optional. Specifies whether the Istio ServiceMesh add-on is enabled or not.')
+param istioServiceMeshEnabled bool = false
+
+@description('Optional. The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values.')
+param istioServiceMeshRevisions array?
+
+@description('Optional. Specifies whether the Internal Istio Ingress Gateway is enabled or not.')
+param istioServiceMeshInternalIngressGatewayEnabled bool = false
+
+@description('Optional. Specifies whether the External Istio Ingress Gateway is enabled or not.')
+param istioServiceMeshExternalIngressGatewayEnabled bool = false
+
+@description('Optional. The Istio Certificate Authority definition.')
+param istioServiceMeshCertificateAuthority istioServiceMeshCertificateAuthorityType?
+
 // =========== //
 // Variables   //
 // =========== //
 
 var formattedUserAssignedIdentities = reduce(
-  map((managedIdentities.?userAssignedResourcesIds ?? []), (id) => { '${id}': {} }),
+  map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
   {},
   (cur, next) => union(cur, next)
 ) // Converts the flat array to an object like { '${id1}': {}, '${id2}': {} }
@@ -406,7 +421,7 @@ var identity = !empty(managedIdentities)
   ? {
       type: (managedIdentities.?systemAssigned ?? false)
         ? 'SystemAssigned'
-        : (!empty(managedIdentities.?userAssignedResourcesIds ?? {}) ? 'UserAssigned' : null)
+        : (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'UserAssigned' : null)
       userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
     }
   : null
@@ -515,18 +530,6 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-resource cMKKeyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = if (!empty(customerManagedKey.?keyVaultResourceId)) {
-  name: last(split((customerManagedKey.?keyVaultResourceId ?? 'dummyVault'), '/'))
-  scope: resourceGroup(
-    split((customerManagedKey.?keyVaultResourceId ?? '//'), '/')[2],
-    split((customerManagedKey.?keyVaultResourceId ?? '////'), '/')[4]
-  )
-
-  resource cMKKey 'keys@2023-02-01' existing = if (!empty(customerManagedKey.?keyVaultResourceId) && !empty(customerManagedKey.?keyName)) {
-    name: customerManagedKey.?keyName ?? 'dummyKey'
-  }
-}
-
 // ============== //
 // Main Resources //
 // ============== //
@@ -537,7 +540,7 @@ resource managedCluster 'Microsoft.ContainerService/managedClusters@2024-03-02-p
   tags: tags
   identity: identity
   sku: {
-    name: 'Base'
+    name: skuName
     tier: skuTier
   }
   properties: {
@@ -678,6 +681,12 @@ resource managedCluster 'Microsoft.ContainerService/managedClusters@2024-03-02-p
     enableRBAC: enableRBAC
     disableLocalAccounts: disableLocalAccounts
     nodeResourceGroup: nodeResourceGroup
+    nodeResourceGroupProfile: nodeResourceGroupProfile
+    nodeProvisioningProfile: !empty(nodeProvisioningProfileMode)
+      ? {
+          mode: nodeProvisioningProfileMode
+        }
+      : null
     enablePodSecurityPolicy: enablePodSecurityPolicy
     workloadAutoScalerProfile: {
       keda: {
@@ -690,8 +699,8 @@ resource managedCluster 'Microsoft.ContainerService/managedClusters@2024-03-02-p
     networkProfile: {
       networkDataplane: networkDataplane
       networkPlugin: networkPlugin
-      networkPluginMode: networkPluginMode
-      networkPolicy: networkPolicy
+      networkPluginMode: networkDataplane == 'cilium' ? 'overlay' : networkPluginMode
+      networkPolicy: networkDataplane == 'cilium' ? 'cilium' : networkPolicy
       podCidr: podCidr
       serviceCidr: serviceCidr
       dnsServiceIP: dnsServiceIP
@@ -708,15 +717,17 @@ resource managedCluster 'Microsoft.ContainerService/managedClusters@2024-03-02-p
       }
     }
     publicNetworkAccess: publicNetworkAccess
-    aadProfile: {
-      clientAppID: aadProfileClientAppID
-      serverAppID: aadProfileServerAppID
-      serverAppSecret: aadProfileServerAppSecret
-      managed: aadProfileManaged
-      enableAzureRBAC: aadProfileEnableAzureRBAC
-      adminGroupObjectIDs: aadProfileAdminGroupObjectIDs
-      tenantID: aadProfileTenantId
-    }
+    aadProfile: !empty(aadProfile)
+      ? {
+          clientAppID: aadProfile.?aadProfileClientAppID
+          serverAppID: aadProfile.?aadProfileServerAppID
+          serverAppSecret: aadProfile.?aadProfileServerAppSecret
+          managed: aadProfile.?aadProfileManaged
+          enableAzureRBAC: aadProfile.?aadProfileEnableAzureRBAC
+          adminGroupObjectIDs: aadProfile.?aadProfileAdminGroupObjectIDs
+          tenantID: aadProfile.?aadProfileTenantId
+        }
+      : null
     autoScalerProfile: {
       'balance-similar-node-groups': toLower(string(autoScalerProfileBalanceSimilarNodeGroups))
       expander: autoScalerProfileExpander
@@ -811,6 +822,37 @@ resource managedCluster 'Microsoft.ContainerService/managedClusters@2024-03-02-p
       }
     }
     supportPlan: supportPlan
+    serviceMeshProfile: istioServiceMeshEnabled
+      ? {
+          istio: {
+            revisions: !empty(istioServiceMeshRevisions) ? istioServiceMeshRevisions : null
+            components: {
+              ingressGateways: [
+                {
+                  enabled: istioServiceMeshInternalIngressGatewayEnabled
+                  mode: 'Internal'
+                }
+                {
+                  enabled: istioServiceMeshExternalIngressGatewayEnabled
+                  mode: 'External'
+                }
+              ]
+            }
+            certificateAuthority: !empty(istioServiceMeshCertificateAuthority)
+              ? {
+                  plugin: {
+                    certChainObjectName: istioServiceMeshCertificateAuthority.?certChainObjectName
+                    certObjectName: istioServiceMeshCertificateAuthority.?certObjectName
+                    keyObjectName: istioServiceMeshCertificateAuthority.?keyObjectName
+                    keyVaultId: istioServiceMeshCertificateAuthority.?keyVaultResourceId
+                    rootCertObjectName: istioServiceMeshCertificateAuthority.?rootCertObjectName
+                  }
+                }
+              : null
+          }
+          mode: 'Istio'
+        }
+      : null
   }
 }
 
@@ -879,7 +921,7 @@ module managedCluster_extension 'br/public:avm/res/kubernetes-configuration/exte
     extensionType: 'microsoft.flux'
     fluxConfigurations: fluxExtension.?configurations
     location: location
-    name: 'flux'
+    name: fluxExtension.?name ?? 'flux'
     releaseNamespace: fluxExtension.?releaseNamespace ?? 'flux-system'
     releaseTrain: fluxExtension.?releaseTrain ?? 'Stable'
     version: fluxExtension.?version
@@ -978,46 +1020,47 @@ output controlPlaneFQDN string = enablePrivateCluster
   : managedCluster.properties.fqdn
 
 @description('The principal ID of the system assigned identity.')
-output systemAssignedMIPrincipalId string = managedCluster.?identity.?principalId ?? ''
+output systemAssignedMIPrincipalId string? = managedCluster.?identity.?principalId
 
 @description('The Client ID of the AKS identity.')
-output kubeletIdentityClientId string = managedCluster.properties.?identityProfile.?kubeletidentity.?clientId ?? ''
+output kubeletIdentityClientId string? = managedCluster.properties.?identityProfile.?kubeletidentity.?clientId
 
 @description('The Object ID of the AKS identity.')
-output kubeletIdentityObjectId string = managedCluster.properties.?identityProfile.?kubeletidentity.?objectId ?? ''
+output kubeletIdentityObjectId string? = managedCluster.properties.?identityProfile.?kubeletidentity.?objectId
 
 @description('The Resource ID of the AKS identity.')
-output kubeletIdentityResourceId string = managedCluster.properties.?identityProfile.?kubeletidentity.?resourceId ?? ''
+output kubeletIdentityResourceId string? = managedCluster.properties.?identityProfile.?kubeletidentity.?resourceId
 
 @description('The Object ID of the OMS agent identity.')
-output omsagentIdentityObjectId string = managedCluster.properties.?addonProfiles.?omsagent.?identity.?objectId ?? ''
+output omsagentIdentityObjectId string? = managedCluster.properties.?addonProfiles.?omsagent.?identity.?objectId
 
 @description('The Object ID of the Key Vault Secrets Provider identity.')
-output keyvaultIdentityObjectId string = managedCluster.properties.?addonProfiles.?azureKeyvaultSecretsProvider.?identity.?objectId ?? ''
+output keyvaultIdentityObjectId string? = managedCluster.properties.?addonProfiles.?azureKeyvaultSecretsProvider.?identity.?objectId
 
 @description('The Client ID of the Key Vault Secrets Provider identity.')
-output keyvaultIdentityClientId string = managedCluster.properties.?addonProfiles.?azureKeyvaultSecretsProvider.?identity.?clientId ?? ''
+output keyvaultIdentityClientId string? = managedCluster.properties.?addonProfiles.?azureKeyvaultSecretsProvider.?identity.?clientId
 
 @description('The Object ID of Application Gateway Ingress Controller (AGIC) identity.')
-output ingressApplicationGatewayIdentityObjectId string = managedCluster.properties.?addonProfiles.?ingressApplicationGateway.?identity.?objectId ?? ''
+output ingressApplicationGatewayIdentityObjectId string? = managedCluster.properties.?addonProfiles.?ingressApplicationGateway.?identity.?objectId
 
 @description('The location the resource was deployed into.')
 output location string = managedCluster.location
 
 @description('The OIDC token issuer URL.')
-output oidcIssuerUrl string = managedCluster.properties.?oidcIssuerProfile.?issuerURL ?? ''
+output oidcIssuerUrl string? = managedCluster.properties.?oidcIssuerProfile.?issuerURL
 
 @description('The addonProfiles of the Kubernetes cluster.')
-output addonProfiles object = managedCluster.properties.?addonProfiles ?? {}
+output addonProfiles object? = managedCluster.properties.?addonProfiles
 
 @description('The Object ID of Web Application Routing.')
-output webAppRoutingIdentityObjectId string = managedCluster.properties.?ingressProfile.?webAppRouting.?identity.?objectId ?? ''
+output webAppRoutingIdentityObjectId string? = managedCluster.properties.?ingressProfile.?webAppRouting.?identity.?objectId
 
 // =============== //
 //   Definitions   //
 // =============== //
 
 @export()
+@description('The type for an agent pool.')
 type agentPoolType = {
   @description('Required. The name of the agent pool.')
   name: string
@@ -1132,104 +1175,17 @@ type agentPoolType = {
 }
 
 @export()
-type managedIdentitiesType = {
-  @description('Optional. Enables system assigned managed identity on the resource.')
-  systemAssigned: bool?
-
-  @description('Optional. The resource ID(s) to assign to the resource.')
-  userAssignedResourcesIds: string[]?
-}
-
-@export()
-type lockType = {
-  @description('Optional. Specify the name of lock.')
-  name: string?
-
-  @description('Optional. Specify the type of lock.')
-  kind: ('CanNotDelete' | 'ReadOnly' | 'None')?
-}?
-
-@export()
-type roleAssignmentType = {
-  @description('Optional. The name (as GUID) of the role assignment. If not provided, a GUID will be generated.')
-  name: string?
-
-  @description('Required. The role to assign. You can provide either the display name of the role definition, the role definition GUID, or its fully qualified ID in the following format: \'/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11\'.')
-  roleDefinitionIdOrName: string
-
-  @description('Required. The principal ID of the principal (user/group/identity) to assign the role to.')
-  principalId: string
-
-  @description('Optional. The principal type of the assigned principal ID.')
-  principalType: ('ServicePrincipal' | 'Group' | 'User' | 'ForeignGroup' | 'Device')?
-
-  @description('Optional. The description of the role assignment.')
-  description: string?
-
-  @description('Optional. The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase "foo_storage_container".')
-  condition: string?
-
-  @description('Optional. Version of the condition.')
-  conditionVersion: '2.0'?
-
-  @description('Optional. The Resource Id of the delegated managed identity resource.')
-  delegatedManagedIdentityResourceId: string?
-}[]?
-
-@export()
-type diagnosticSettingType = {
-  @description('Optional. The name of diagnostic setting.')
-  name: string?
-
-  @description('Optional. The name of logs that will be streamed. "allLogs" includes all possible logs for the resource. Set to `[]` to disable log collection.')
-  logCategoriesAndGroups: {
-    @description('Optional. Name of a Diagnostic Log category for a resource type this setting is applied to. Set the specific logs to collect here.')
-    category: string?
-
-    @description('Optional. Name of a Diagnostic Log category group for a resource type this setting is applied to. Set to `allLogs` to collect all logs.')
-    categoryGroup: string?
-
-    @description('Optional. Enable or disable the category explicitly. Default is `true`.')
-    enabled: bool?
-  }[]?
-
-  @description('Optional. The name of metrics that will be streamed. "allMetrics" includes all possible metrics for the resource. Set to `[]` to disable metric collection.')
-  metricCategories: {
-    @description('Required. Name of a Diagnostic Metric category for a resource type this setting is applied to. Set to `AllMetrics` to collect all metrics.')
-    category: string
-
-    @description('Optional. Enable or disable the category explicitly. Default is `true`.')
-    enabled: bool?
-  }[]?
-
-  @description('Optional. A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type.')
-  logAnalyticsDestinationType: ('Dedicated' | 'AzureDiagnostics' | null)?
-
-  @description('Optional. Resource ID of the diagnostic log analytics workspace. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub.')
-  workspaceResourceId: string?
-
-  @description('Optional. Resource ID of the diagnostic storage account. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub.')
-  storageAccountResourceId: string?
-
-  @description('Optional. Resource ID of the diagnostic event hub authorization rule for the Event Hubs namespace in which the event hub should be created or streamed to.')
-  eventHubAuthorizationRuleResourceId: string?
-
-  @description('Optional. Name of the diagnostic event hub within the namespace to which logs are streamed. Without this, an event hub is created for each log category. For security reasons, it is recommended to set diagnostic settings to send data to either storage account, log analytics workspace or event hub.')
-  eventHubName: string?
-
-  @description('Optional. The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.')
-  marketplacePartnerResourceId: string?
-}[]?
-
-@export()
+@description('The type for flux configuration protected settings.')
 type fluxConfigurationProtectedSettingsType = {
   @description('Optional. The SSH private key to use for Git authentication.')
+  @secure()
   sshPrivateKey: string?
 }
 
 @export()
+@description('The type for an extension.')
 type extensionType = {
-  @description('Required. The name of the extension.')
+  @description('Optional. The name of the extension.')
   name: string?
 
   @description('Optional. Namespace where the extension Release must be placed.')
@@ -1238,7 +1194,7 @@ type extensionType = {
   @description('Optional. Namespace where the extension will be created for an Namespace scoped extension.')
   targetNamespace: string?
 
-  @description('Required. The release train of the extension.')
+  @description('Optional. The release train of the extension.')
   releaseTrain: string?
 
   @description('Optional. The configuration protected settings of the extension.')
@@ -1255,25 +1211,55 @@ type extensionType = {
 }
 
 @export()
-type customerManagedKeyType = {
-  @description('Required. The resource ID of a key vault to reference a customer managed key for encryption from.')
-  keyVaultResourceId: string
-
-  @description('Required. The name of the customer managed key to use for encryption.')
-  keyName: string
-
-  @description('Optional. The version of the customer managed key to reference for encryption. If not provided, using \'latest\'.')
-  keyVersion: string?
-
-  @description('Required. Network access of key vault. The possible values are Public and Private. Public means the key vault allows public access from all networks. Private means the key vault disables public access and enables private link. The default value is Public.')
-  keyVaultNetworkAccess: ('Private' | 'Public')
-}
-
-@export()
+@description('The type of a mainenance configuration.')
 type maintenanceConfigurationType = {
   @description('Required. Name of maintenance window.')
   name: ('aksManagedAutoUpgradeSchedule' | 'aksManagedNodeOSUpgradeSchedule')
 
   @description('Required. Maintenance window for the maintenance configuration.')
   maintenanceWindow: object
+}
+
+@export()
+@description('The type for an The Istio Certificate Authority definition.')
+type istioServiceMeshCertificateAuthorityType = {
+  @description('Required. The resource ID of a key vault to reference a Certificate Authority from.')
+  keyVaultResourceId: string
+
+  @description('Required. The Certificate chain object name in Azure Key Vault.')
+  certChainObjectName: string
+
+  @description('Required. The Intermediate certificate object name in Azure Key Vault.')
+  certObjectName: string
+
+  @description('Required. The Intermediate certificate private key object name in Azure Key Vault.')
+  keyObjectName: string
+
+  @description('Required. Root certificate object name in Azure Key Vault.')
+  rootCertObjectName: string
+}
+
+@export()
+@description('The type for an AAD profile.')
+type aadProfileType = {
+  @description('Optional. The client AAD application ID.')
+  aadProfileClientAppID: string?
+
+  @description('Optional. The server AAD application ID.')
+  aadProfileServerAppID: string?
+
+  @description('Optional. The server AAD application secret.')
+  aadProfileServerAppSecret: string?
+
+  @description('Required. Specifies whether to enable managed AAD integration.')
+  aadProfileManaged: bool
+
+  @description('Required. Specifies whether to enable Azure RBAC for Kubernetes authorization.')
+  aadProfileEnableAzureRBAC: bool
+
+  @description('Optional. Specifies the AAD group object IDs that will have admin role of the cluster.')
+  aadProfileAdminGroupObjectIDs: string[]?
+
+  @description('Optional. Specifies the tenant ID of the Azure Active Directory used by the AKS cluster for authentication.')
+  aadProfileTenantId: string?
 }

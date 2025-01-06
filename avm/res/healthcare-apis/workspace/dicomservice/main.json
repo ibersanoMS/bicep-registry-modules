@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.29.47.4906",
-      "templateHash": "1751217677948929755"
+      "version": "0.32.4.45862",
+      "templateHash": "5239077988285512611"
     },
     "name": "Healthcare API Workspace DICOM Services",
     "description": "This module deploys a Healthcare API Workspace DICOM Service.",
@@ -207,7 +207,7 @@
     "corsHeaders": {
       "type": "array",
       "metadata": {
-        "description": "Optional. Specify HTTP headers which can be used during the request. Use \"*\" for any header."
+        "description": "Required. Specify HTTP headers which can be used during the request. Use \"*\" for any header."
       }
     },
     "corsMethods": {
@@ -310,10 +310,7 @@
           "origins": "[parameters('corsOrigins')]"
         },
         "publicNetworkAccess": "[parameters('publicNetworkAccess')]"
-      },
-      "dependsOn": [
-        "workspace"
-      ]
+      }
     },
     "dicom_lock": {
       "condition": "[and(not(empty(coalesce(parameters('lock'), createObject()))), not(equals(tryGet(parameters('lock'), 'kind'), 'None')))]",

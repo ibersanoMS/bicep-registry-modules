@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.30.23.60470",
-      "templateHash": "14190804454906731332"
+      "version": "0.32.4.45862",
+      "templateHash": "10875530237732240438"
     },
     "name": "AI Platform Baseline",
     "description": "This module provides a secure and scalable environment for deploying AI applications on Azure.\nThe module encompasses all essential components required for building, managing, and observing AI solutions, including a machine learning workspace, observability tools, and necessary data management services.\nBy integrating with Microsoft Entra ID for secure identity management and utilizing private endpoints for services like Key Vault and Blob Storage, the module ensures secure communication and data access.",
@@ -24,7 +24,10 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a log analytics configuration."
+      }
     },
     "keyVaultConfigurationType": {
       "type": "object",
@@ -44,7 +47,10 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a key vault configuration."
+      }
     },
     "storageAccountConfigurationType": {
       "type": "object",
@@ -81,7 +87,10 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a storage account configuration."
+      }
     },
     "containerRegistryConfigurationType": {
       "type": "object",
@@ -105,7 +114,10 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a container registry configuration."
+      }
     },
     "applicationInsightsConfigurationType": {
       "type": "object",
@@ -118,7 +130,10 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for an application insights configuration."
+      }
     },
     "workspaceConfigurationType": {
       "type": "object",
@@ -157,12 +172,16 @@
         },
         "networkOutboundRules": {
           "$ref": "#/definitions/networkOutboundRuleType",
+          "nullable": true,
           "metadata": {
             "description": "Optional. The outbound rules for the managed network of the workspace hub."
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a workspace configuration."
+      }
     },
     "virtualNetworkSubnetConfigurationType": {
       "type": "object",
@@ -189,7 +208,9 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "description": "The type for a virtual network subnet configuration."
+      }
     },
     "virtualNetworkConfigurationType": {
       "type": "object",
@@ -217,12 +238,16 @@
         },
         "subnet": {
           "$ref": "#/definitions/virtualNetworkSubnetConfigurationType",
+          "nullable": true,
           "metadata": {
             "description": "Optional. Configuration for the virual network subnet."
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a virtual network configuration."
+      }
     },
     "bastionConfigurationType": {
       "type": "object",
@@ -309,9 +334,12 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a bastion configuration."
+      }
     },
-    "nicConfigurationConfigurationType": {
+    "nicConfigurationType": {
       "type": "object",
       "properties": {
         "name": {
@@ -347,7 +375,9 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "description": "The type for a NIC configuration."
+      }
     },
     "osDiskType": {
       "type": "object",
@@ -433,10 +463,12 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "description": "The type for an OS disk."
+      }
     },
     "virtualMachineConfigurationType": {
-      "type": "secureObject",
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "bool",
@@ -470,7 +502,7 @@
           "type": "string",
           "nullable": true,
           "metadata": {
-            "description": "Required. The virtual machine size. Defaults to 'Standard_D2s_v3'."
+            "description": "Optional. The virtual machine size. Defaults to 'Standard_D2s_v3'."
           }
         },
         "adminUsername": {
@@ -481,14 +513,15 @@
           }
         },
         "adminPassword": {
-          "type": "string",
+          "type": "securestring",
           "nullable": true,
           "metadata": {
             "description": "Conditional. The password for the administrator account on the virtual machine. Required if a virtual machine is created as part of the module."
           }
         },
         "nicConfigurationConfiguration": {
-          "$ref": "#/definitions/nicConfigurationConfigurationType",
+          "$ref": "#/definitions/nicConfigurationType",
+          "nullable": true,
           "metadata": {
             "description": "Optional. Configuration for the virtual machine network interface."
           }
@@ -502,6 +535,7 @@
         },
         "osDisk": {
           "$ref": "#/definitions/osDiskType",
+          "nullable": true,
           "metadata": {
             "description": "Optional. Specifies the OS disk."
           }
@@ -547,26 +581,32 @@
           }
         }
       },
-      "nullable": true
+      "metadata": {
+        "__bicep_export!": true,
+        "description": "The type for a virtual machine configuration."
+      }
     },
-    "OutboundRuleType": {
+    "outboundRuleType": {
       "type": "object",
       "discriminator": {
         "propertyName": "type",
         "mapping": {
           "FQDN": {
-            "$ref": "#/definitions/FqdnOutboundRuleType"
+            "$ref": "#/definitions/fqdnOutboundRuleType"
           },
           "PrivateEndpoint": {
-            "$ref": "#/definitions/PrivateEndpointOutboundRule"
+            "$ref": "#/definitions/privateEndpointOutboundRuleType"
           },
           "ServiceTag": {
-            "$ref": "#/definitions/ServiceTagOutboundRule"
+            "$ref": "#/definitions/serviceTagOutboundRuleType"
           }
         }
+      },
+      "metadata": {
+        "description": "The type for an outbound rule."
       }
     },
-    "FqdnOutboundRuleType": {
+    "fqdnOutboundRuleType": {
       "type": "object",
       "properties": {
         "type": {
@@ -597,9 +637,12 @@
             "description": "Optional. Category of a managed network Outbound Rule of the workspace hub."
           }
         }
+      },
+      "metadata": {
+        "description": "The type for a FQDN outbound rule."
       }
     },
-    "PrivateEndpointOutboundRule": {
+    "privateEndpointOutboundRuleType": {
       "type": "object",
       "properties": {
         "type": {
@@ -651,9 +694,12 @@
             "description": "Optional. Category of a managed network Outbound Rule of the workspace hub."
           }
         }
+      },
+      "metadata": {
+        "description": "The type for a private endpoint outbound rule."
       }
     },
-    "ServiceTagOutboundRule": {
+    "serviceTagOutboundRuleType": {
       "type": "object",
       "properties": {
         "type": {
@@ -710,20 +756,22 @@
             "description": "Optional. Category of a managed network Outbound Rule of the workspace hub."
           }
         }
+      },
+      "metadata": {
+        "description": "The type for an service tag outbound rule."
       }
     },
     "networkOutboundRuleType": {
       "type": "object",
       "properties": {},
       "additionalProperties": {
-        "$ref": "#/definitions/OutboundRuleType",
+        "$ref": "#/definitions/outboundRuleType",
         "metadata": {
           "description": "Required. The outbound rule. The name of the rule is the object key."
         }
       },
-      "nullable": true,
       "metadata": {
-        "description": "Optional. Outbound rules for the managed network of the workspace hub."
+        "description": "The type for outbound rules for the managed network of the workspace hub."
       }
     }
   },
@@ -760,59 +808,68 @@
       "type": "string",
       "nullable": true,
       "metadata": {
-        "description": "Optional. The name of the user assigned identity for the AI Studio hub. If not provided, the hub will use a system assigned identity."
+        "description": "Optional. The name of the user-assigned identity for the AI Studio hub. If not provided, the hub will use a system-assigned identity."
       }
     },
     "logAnalyticsConfiguration": {
       "$ref": "#/definitions/logAnalyticsConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the Log Analytics workspace."
       }
     },
     "keyVaultConfiguration": {
       "$ref": "#/definitions/keyVaultConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the key vault."
       }
     },
     "storageAccountConfiguration": {
       "$ref": "#/definitions/storageAccountConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the storage account."
       }
     },
     "containerRegistryConfiguration": {
       "$ref": "#/definitions/containerRegistryConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the container registry."
       }
     },
     "applicationInsightsConfiguration": {
       "$ref": "#/definitions/applicationInsightsConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for Application Insights."
       }
     },
     "workspaceConfiguration": {
       "$ref": "#/definitions/workspaceConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the AI Studio workspace."
       }
     },
     "virtualNetworkConfiguration": {
       "$ref": "#/definitions/virtualNetworkConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the virtual network."
       }
     },
     "bastionConfiguration": {
       "$ref": "#/definitions/bastionConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the Azure Bastion host."
       }
     },
     "virtualMachineConfiguration": {
       "$ref": "#/definitions/virtualMachineConfigurationType",
+      "nullable": true,
       "metadata": {
         "description": "Optional. Configuration for the virtual machine."
       }

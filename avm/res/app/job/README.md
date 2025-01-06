@@ -1100,6 +1100,8 @@ Minimum consecutive failures for the probe to be considered failed after having 
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet`
 
@@ -1107,6 +1109,8 @@ HTTPGet specifies the http request to perform.
 
 - Required: No
 - Type: object
+- MinValue: 1
+- MaxValue: 10
 
 **Required parameters**
 
@@ -1114,7 +1118,6 @@ HTTPGet specifies the http request to perform.
 | :-- | :-- | :-- |
 | [`path`](#parameter-containersprobeshttpgetpath) | string | Path to access on the HTTP server. |
 | [`port`](#parameter-containersprobeshttpgetport) | int | Name of the port to access on the container. If not specified, the containerPort is used. |
-| [`scheme`](#parameter-containersprobeshttpgetscheme) | string | Scheme to use for connecting to the host. Defaults to HTTP. |
 
 **Optional parameters**
 
@@ -1122,6 +1125,7 @@ HTTPGet specifies the http request to perform.
 | :-- | :-- | :-- |
 | [`host`](#parameter-containersprobeshttpgethost) | string | Host name to connect to, defaults to the pod IP. |
 | [`httpHeaders`](#parameter-containersprobeshttpgethttpheaders) | array | Custom headers to set in the request. |
+| [`scheme`](#parameter-containersprobeshttpgetscheme) | string | Scheme to use for connecting to the host. Defaults to HTTP. |
 
 ### Parameter: `containers.probes.httpGet.path`
 
@@ -1129,6 +1133,8 @@ Path to access on the HTTP server.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.httpGet.port`
 
@@ -1136,20 +1142,8 @@ Name of the port to access on the container. If not specified, the containerPort
 
 - Required: Yes
 - Type: int
-
-### Parameter: `containers.probes.httpGet.scheme`
-
-Scheme to use for connecting to the host. Defaults to HTTP.
-
-- Required: No
-- Type: string
-- Allowed:
-  ```Bicep
-  [
-    'HTTP'
-    'HTTPS'
-  ]
-  ```
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.httpGet.host`
 
@@ -1157,6 +1151,8 @@ Host name to connect to, defaults to the pod IP.
 
 - Required: No
 - Type: string
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.httpGet.httpHeaders`
 
@@ -1164,6 +1160,8 @@ Custom headers to set in the request.
 
 - Required: No
 - Type: array
+- MinValue: 1
+- MaxValue: 65535
 
 **Required parameters**
 
@@ -1178,6 +1176,8 @@ The header field name.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.httpGet.httpHeaders.value`
 
@@ -1185,6 +1185,24 @@ The header field value.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 65535
+
+### Parameter: `containers.probes.httpGet.scheme`
+
+Scheme to use for connecting to the host. Defaults to HTTP.
+
+- Required: No
+- Type: string
+- Allowed:
+  ```Bicep
+  [
+    'HTTP'
+    'HTTPS'
+  ]
+  ```
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.initialDelaySeconds`
 
@@ -1192,6 +1210,8 @@ Number of seconds after the container has started before liveness probes are ini
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 60
 
 ### Parameter: `containers.probes.periodSeconds`
 
@@ -1199,6 +1219,8 @@ How often (in seconds) to perform the probe. Defaults to 10 seconds.
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 60
 
 ### Parameter: `containers.probes.successThreshold`
 
@@ -1206,6 +1228,8 @@ Minimum consecutive successes for the probe to be considered successful after ha
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 10
 
 ### Parameter: `containers.probes.tcpSocket`
 
@@ -1213,25 +1237,15 @@ TCPSocket specifies an action involving a TCP port.
 
 - Required: No
 - Type: object
+- MinValue: 1
+- MaxValue: 10
 
 **Required parameters**
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`port`](#parameter-containersprobestcpsocketport) | int | Name of the port to access on the container. If not specified, the containerPort is used. |
-
-**Optional parameters**
-
-| Parameter | Type | Description |
-| :-- | :-- | :-- |
 | [`host`](#parameter-containersprobestcpsockethost) | string | Host name to connect to, defaults to the pod IP. |
-
-### Parameter: `containers.probes.tcpSocket.port`
-
-Name of the port to access on the container. If not specified, the containerPort is used.
-
-- Required: Yes
-- Type: int
+| [`port`](#parameter-containersprobestcpsocketport) | int | Name of the port to access on the container. If not specified, the containerPort is used. |
 
 ### Parameter: `containers.probes.tcpSocket.host`
 
@@ -1239,6 +1253,17 @@ Host name to connect to, defaults to the pod IP.
 
 - Required: Yes
 - Type: string
+- MinValue: 1
+- MaxValue: 10
+
+### Parameter: `containers.probes.tcpSocket.port`
+
+Name of the port to access on the container. If not specified, the containerPort is used.
+
+- Required: Yes
+- Type: int
+- MinValue: 1
+- MaxValue: 65535
 
 ### Parameter: `containers.probes.terminationGracePeriodSeconds`
 
@@ -1246,6 +1271,8 @@ Duration in seconds the pod needs to terminate gracefully upon probe failure. Th
 
 - Required: No
 - Type: int
+- MinValue: 0
+- MaxValue: 3600
 
 ### Parameter: `containers.probes.timeoutSeconds`
 
@@ -1253,6 +1280,8 @@ Number of seconds after which the probe times out. Defaults to 1 second.
 
 - Required: No
 - Type: int
+- MinValue: 1
+- MaxValue: 240
 
 ### Parameter: `containers.resources`
 
@@ -1266,11 +1295,6 @@ The resources to allocate to the container.
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`cpu`](#parameter-containersresourcescpu) | string | The CPU limit of the container in cores. |
-
-**Optional parameters**
-
-| Parameter | Type | Description |
-| :-- | :-- | :-- |
 | [`memory`](#parameter-containersresourcesmemory) | string | The required memory. |
 
 ### Parameter: `containers.resources.cpu`
@@ -1395,6 +1419,12 @@ Scaling configurations for event driven jobs.
 - Required: Yes
 - Type: object
 
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`rules`](#parameter-eventtriggerconfigscalerules) | array | Scaling rules for the job. |
+
 **Optional parameters**
 
 | Parameter | Type | Description |
@@ -1402,28 +1432,6 @@ Scaling configurations for event driven jobs.
 | [`maxExecutions`](#parameter-eventtriggerconfigscalemaxexecutions) | int | Maximum number of job executions that are created for a trigger, default 100. |
 | [`minExecutions`](#parameter-eventtriggerconfigscaleminexecutions) | int | Minimum number of job executions that are created for a trigger, default 0. |
 | [`pollingInterval`](#parameter-eventtriggerconfigscalepollinginterval) | int | Interval to check each event source in seconds. Defaults to 30s. |
-| [`rules`](#parameter-eventtriggerconfigscalerules) | array | Scaling rules for the job. |
-
-### Parameter: `eventTriggerConfig.scale.maxExecutions`
-
-Maximum number of job executions that are created for a trigger, default 100.
-
-- Required: No
-- Type: int
-
-### Parameter: `eventTriggerConfig.scale.minExecutions`
-
-Minimum number of job executions that are created for a trigger, default 0.
-
-- Required: No
-- Type: int
-
-### Parameter: `eventTriggerConfig.scale.pollingInterval`
-
-Interval to check each event source in seconds. Defaults to 30s.
-
-- Required: No
-- Type: int
 
 ### Parameter: `eventTriggerConfig.scale.rules`
 
@@ -1454,15 +1462,52 @@ Scaling rules for the job.
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`auth`](#parameter-eventtriggerconfigscalerulesauth) | array | Authentication secrets for the scale rule. |
+| [`metadata`](#parameter-eventtriggerconfigscalerulesmetadata) | object | Metadata properties to describe the scale rule. |
 | [`name`](#parameter-eventtriggerconfigscalerulesname) | string | The name of the scale rule. |
+| [`type`](#parameter-eventtriggerconfigscalerulestype) | string | The type of the rule. |
 
 **Optional parameters**
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`metadata`](#parameter-eventtriggerconfigscalerulesmetadata) | object | Metadata properties to describe the scale rule. |
-| [`type`](#parameter-eventtriggerconfigscalerulestype) | string | The type of the rule. |
+| [`auth`](#parameter-eventtriggerconfigscalerulesauth) | array | Authentication secrets for the scale rule. |
+
+### Parameter: `eventTriggerConfig.scale.rules.metadata`
+
+Metadata properties to describe the scale rule.
+
+- Required: Yes
+- Type: object
+- Example:
+  ```Bicep
+  {
+    "// for type azure-queue
+    {
+      queueName: 'default'
+      storageAccountResourceId: '/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount'
+    }"
+  }
+  ```
+
+### Parameter: `eventTriggerConfig.scale.rules.name`
+
+The name of the scale rule.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `eventTriggerConfig.scale.rules.type`
+
+The type of the rule.
+
+- Required: Yes
+- Type: string
+- Example:
+  ```Bicep
+  "azure-servicebus"
+  "azure-queue"
+  "redis"
+  ```
 
 ### Parameter: `eventTriggerConfig.scale.rules.auth`
 
@@ -1492,42 +1537,26 @@ Trigger Parameter that uses the secret.
 - Required: Yes
 - Type: string
 
-### Parameter: `eventTriggerConfig.scale.rules.name`
+### Parameter: `eventTriggerConfig.scale.maxExecutions`
 
-The name of the scale rule.
+Maximum number of job executions that are created for a trigger, default 100.
 
-- Required: Yes
-- Type: string
+- Required: No
+- Type: int
 
-### Parameter: `eventTriggerConfig.scale.rules.metadata`
+### Parameter: `eventTriggerConfig.scale.minExecutions`
 
-Metadata properties to describe the scale rule.
+Minimum number of job executions that are created for a trigger, default 0.
 
-- Required: Yes
-- Type: object
-- Example:
-  ```Bicep
-  {
-    "// for type azure-queue
-    {
-      queueName: 'default'
-      storageAccountResourceId: '/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount'
-    }"
-  }
-  ```
+- Required: No
+- Type: int
 
-### Parameter: `eventTriggerConfig.scale.rules.type`
+### Parameter: `eventTriggerConfig.scale.pollingInterval`
 
-The type of the rule.
+Interval to check each event source in seconds. Defaults to 30s.
 
-- Required: Yes
-- Type: string
-- Example:
-  ```Bicep
-  "azure-servicebus"
-  "azure-queue"
-  "redis"
-  ```
+- Required: No
+- Type: int
 
 ### Parameter: `eventTriggerConfig.parallelism`
 
@@ -1636,76 +1665,18 @@ List of specialized containers that run before app containers.
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`image`](#parameter-initcontainersimage) | string | The image of the container. |
-| [`name`](#parameter-initcontainersname) | string | The name of the container. |
-| [`resources`](#parameter-initcontainersresources) | object | Container resource requirements. |
-
-**Optional parameters**
-
-| Parameter | Type | Description |
-| :-- | :-- | :-- |
 | [`args`](#parameter-initcontainersargs) | array | Container start command arguments. |
 | [`command`](#parameter-initcontainerscommand) | array | Container start command. |
-| [`env`](#parameter-initcontainersenv) | array | The environment variables to set in the container. |
-| [`volumeMounts`](#parameter-initcontainersvolumemounts) | array | The volume mounts to attach to the container. |
-
-### Parameter: `initContainers.image`
-
-The image of the container.
-
-- Required: Yes
-- Type: string
-
-### Parameter: `initContainers.name`
-
-The name of the container.
-
-- Required: Yes
-- Type: string
-
-### Parameter: `initContainers.resources`
-
-Container resource requirements.
-
-- Required: No
-- Type: object
-
-**Required parameters**
-
-| Parameter | Type | Description |
-| :-- | :-- | :-- |
-| [`cpu`](#parameter-initcontainersresourcescpu) | string | The CPU limit of the container in cores. |
+| [`image`](#parameter-initcontainersimage) | string | The image of the container. |
+| [`name`](#parameter-initcontainersname) | string | The name of the container. |
 
 **Optional parameters**
 
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
-| [`memory`](#parameter-initcontainersresourcesmemory) | string | The required memory. |
-
-### Parameter: `initContainers.resources.cpu`
-
-The CPU limit of the container in cores.
-
-- Required: Yes
-- Type: string
-- Example:
-  ```Bicep
-  '0.25'
-  '1'
-  ```
-
-### Parameter: `initContainers.resources.memory`
-
-The required memory.
-
-- Required: Yes
-- Type: string
-- Example:
-  ```Bicep
-  '250Mb'
-  '1.5Gi'
-  '1500Mi'
-  ```
+| [`env`](#parameter-initcontainersenv) | array | The environment variables to set in the container. |
+| [`resources`](#parameter-initcontainersresources) | object | Container resource requirements. |
+| [`volumeMounts`](#parameter-initcontainersvolumemounts) | array | The volume mounts to attach to the container. |
 
 ### Parameter: `initContainers.args`
 
@@ -1720,6 +1691,20 @@ Container start command.
 
 - Required: Yes
 - Type: array
+
+### Parameter: `initContainers.image`
+
+The image of the container.
+
+- Required: Yes
+- Type: string
+
+### Parameter: `initContainers.name`
+
+The name of the container.
+
+- Required: Yes
+- Type: string
 
 ### Parameter: `initContainers.env`
 
@@ -1774,6 +1759,45 @@ The environment variable value. Required if `secretRef` is null.
 
 - Required: No
 - Type: string
+
+### Parameter: `initContainers.resources`
+
+Container resource requirements.
+
+- Required: No
+- Type: object
+
+**Required parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`cpu`](#parameter-initcontainersresourcescpu) | string | The CPU limit of the container in cores. |
+| [`memory`](#parameter-initcontainersresourcesmemory) | string | The required memory. |
+
+### Parameter: `initContainers.resources.cpu`
+
+The CPU limit of the container in cores.
+
+- Required: Yes
+- Type: string
+- Example:
+  ```Bicep
+  '0.25'
+  '1'
+  ```
+
+### Parameter: `initContainers.resources.memory`
+
+The required memory.
+
+- Required: Yes
+- Type: string
+- Example:
+  ```Bicep
+  '250Mb'
+  '1.5Gi'
+  '1500Mi'
+  ```
 
 ### Parameter: `initContainers.volumeMounts`
 

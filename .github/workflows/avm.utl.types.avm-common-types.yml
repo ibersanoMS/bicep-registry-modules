@@ -7,7 +7,7 @@ on:
         type: boolean
         description: "Execute static validation"
         required: false
-        default: false # true
+        default: true
       deploymentValidation:
         type: boolean
         description: "Execute deployment validation"
@@ -22,7 +22,6 @@ on:
         type: string
         description: "Default location overwrite (e.g., eastus)"
         required: false
-        default: 'northeurope'
   push:
     branches:
       - main
@@ -31,8 +30,8 @@ on:
       - ".github/workflows/avm.template.module.yml"
       - ".github/workflows/avm.utl.types.avm-common-types.yml"
       - "avm/utl/types/avm-common-types/**"
-      - "avm/utilities/pipelines/**"
-      - "!avm/utilities/pipelines/platform/**"
+      - "utilities/pipelines/**"
+      - "!utilities/pipelines/platform/**"
       - "!*/**/README.md"
 
 env:
